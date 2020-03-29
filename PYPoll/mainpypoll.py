@@ -8,9 +8,8 @@ import csv
 pollcsv = os.path.join('Resources','election_data.csv')
 
 #create lists from dataset
-candidate_list = []
-candidate_name = []
-vote_total = []
+candidate_unique = []
+cadidate_vote_total = []
 percent_vote = []
 
 #create variable
@@ -25,38 +24,55 @@ with open(pollcsv, newline='') as csvfile:
     
 # The total number of votes cast
     for row in csvreader:
-        total_votes = total + 1
+        #+= means addition assignment assigns the result to the varible total
+        total += 1
     
     #create candidate list and add names to the list
         #####candidate_list.append(row[2])
-        candidate_in = (row[2])    
+        candidate_in_file = (row[2])    
 #	A complete list of candidates who received votes
     #https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps
-        candidate_in = (row[2])
-        if candidate_in in candidate_list:
-            candidate_index = candidate_list.index(candidate_in)
-            vote_total[candidate_index] = vote_total[candidate_index] + 1
+        candidate_in_file = (row[2])
+        if candidate_in_file in candidate_unique:
+            candidate_index = candidate_unique.index(candidate_in_file)
+            candidate_vote_total[candidate_index] = candidate_vote_total[candidate_index] + 1
         else:
-            candidate_list.append(candidate_in)
-            vote_total.append(1)    
+            candidate_unique.append(candidate_in_file)
+            candidate_vote_total.append(1)    
 #	The percentage of votes each candidate won
     percentage = []
-    max_votes = vote_total[0]
+    max_votes = candidate_vote_total[0]
     max_index = 0
-    for x in range(len(candidate_name)):
-        vote_percentage = round(vote_total[x]/total_votes*100, 2)
+    for x in range(len(candidate_unique)):
+        #round to two decimals using round
+        vote_percentage = round(candidate_vote_total[x]/total*100, 2)
         percentage.append(vote_percentage)
 
-        if vote_total[x] > max_votes:
-            max_votes = vote_total[x]
+        if candidate_vote_total[x] > max_votes:
+            max_votes = candidate_vote_total[x]
             max_index = x
-    election_winner = candidate_list[max_index]
+    election_winner = candidate_unique[max_index]
+    
     
 #	The total number of votes each candidate won
 
 
 #	The winner of the election based on popular vote.
+print("--------------------------------------------")
+print("election results")
+print("--------------------------------------------")
+#print("Total Votes" + str(total))
+print(f'Total Votes {total}')
+for x in range(len(candidate_unique)):
+    print(f'{candidate_unique[x]} {percentage[x]} ({candidate_vote_total[x]})')
+print(f'Election Winner = {election_winner}')
 
-
-    for x in range(len(candidate_list)):
-        print(f'{candidate_in[x]} : {percentage[x]}% ({vote_total[x]})')
+with open("election results.txt", "w") as text:
+    text.write("--------------------------------------\n")
+    text.write("election results\n")
+    text.write("-------------------------------------\n\n")
+    text.write(f'Total Votes {total}')
+    for x in range(len(candidate_unique)):
+        text.write(f'{candidate_unique[x]} {percentage[x]} ({candidate_vote_total[x]})')
+    text.write(f'Election Winner = {election_winner.upper()}')
+text.write("END")
