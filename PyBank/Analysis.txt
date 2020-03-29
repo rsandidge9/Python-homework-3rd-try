@@ -1,0 +1,10 @@
+--------------------------------------
+analysis
+-------------------------------------
+
+Total Months: 86
+Total Profits: $38382578
+Average Change: $532869
+Greatest Change in Profit: ${'date': 'Feb-2012', 'change': 1926159}
+Greatest Decrease in Profit: ${'date': 'Sep-2013', 'change': -2196167}
+--------------------------------------
